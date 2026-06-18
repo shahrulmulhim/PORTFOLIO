@@ -57,7 +57,16 @@
   .stat-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
   .stat-item b{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text);font-size:24px;}
   .stat-item span{color:var(--muted-2);font-size:12px;}
-  .hero-visual{position:relative;height:640px;pointer-events:none;overflow:visible;}
+  .hero-visual{position:relative;height:640px;pointer-events:none;overflow:visible;display:flex;flex-direction:column;}
+  .bim-canvas-wrap{position:relative;flex:1 1 0;min-height:0;}
+  .bim-bottom-panel{width:100%;background:rgba(8,14,10,0.92);border:1px solid rgba(255,110,180,0.25);border-top:none;border-radius:0 0 16px 16px;padding:16px 20px;backdrop-filter:blur(14px);display:grid;grid-template-columns:auto 1fr 1fr 1fr;align-items:center;gap:0;flex-shrink:0;}
+  .bim-bottom-label{display:flex;flex-direction:column;gap:3px;padding-right:20px;border-right:1px solid rgba(255,255,255,0.07);}
+  .bim-bottom-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.8px;color:#ff6eb4;text-transform:uppercase;}
+  .bim-bottom-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--text);text-transform:uppercase;font-weight:600;}
+  .bim-bottom-stat{display:flex;flex-direction:column;gap:4px;padding:0 20px;border-right:1px solid rgba(255,255,255,0.07);}
+  .bim-bottom-stat:last-child{border-right:none;}
+  .bim-bottom-key{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted-2);text-transform:uppercase;letter-spacing:0.8px;}
+  .bim-bottom-val{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);font-weight:600;}
   .hero-card{position:relative;width:100%;height:100%;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);}
   .hero-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(57,255,106,0.1),transparent);z-index:1;}
   .hero-card-content{position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;}
@@ -65,8 +74,8 @@
   @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
   .hero-card-icon svg{width:40px;height:40px;color:var(--green);}
   @media(max-width:1100px){.hero-visual{height:500px;}}
-  @media(max-width:900px){.hero .wrap{grid-template-columns:1fr;}.hero-visual{height:360px;order:2;opacity:0.85;}}
-  @media(max-width:600px){.hero-visual{height:260px;}.wrap{padding:0 22px;}.nav{padding:16px 22px;}}
+  @media(max-width:900px){.hero .wrap{grid-template-columns:1fr;}.hero-visual{height:420px;order:2;opacity:0.85;}.bim-bottom-panel{grid-template-columns:1fr 1fr;gap:0;}.bim-bottom-label{border-right:none;padding-right:0;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:10px;grid-column:1/-1;}.bim-bottom-stat{border-right:none;padding:6px 12px;border-right:1px solid rgba(255,255,255,0.07);}.bim-bottom-stat:nth-child(3){border-right:none;}}
+  @media(max-width:600px){.hero-visual{height:320px;}.wrap{padding:0 22px;}.nav{padding:16px 22px;}.bim-bottom-panel{padding:12px 14px;}.bim-bottom-val{font-size:11px;}}
   section{padding:130px 0;position:relative;}
   .section-tag{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;display:block;}
   .section-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4vw,44px);letter-spacing:-0.5px;margin-bottom:20px;max-width:620px;}
@@ -242,7 +251,7 @@
   @keyframes floatLabel{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
 
   /* BIM Coordination Panel */
-  .bim-panel{position:absolute;top:7%;right:2%;width:190px;background:rgba(8,14,10,0.9);border:1px solid rgba(255,110,180,0.2);border-radius:6px;padding:14px 16px;backdrop-filter:blur(14px);z-index:4;}
+  .bim-panel{position:absolute;bottom:3%;right:2%;width:190px;background:rgba(8,14,10,0.9);border:1px solid rgba(255,110,180,0.2);border-radius:6px;padding:14px 16px;backdrop-filter:blur(14px);z-index:4;}
   .bim-panel-header{margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:10px;}
   .bim-panel-tag{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.8px;color:#ff6eb4;text-transform:uppercase;margin-bottom:3px;}
   .bim-panel-title{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--text);text-transform:uppercase;}
@@ -326,21 +335,30 @@
       </div>
     </div>
         <div class="hero-visual">
-      <canvas id="bim-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:16px;"></canvas>
-      <!-- Floating discipline labels -->
-      <div class="bim-label bim-label-arch">ARCHITECTURAL</div>
-      <div class="bim-label bim-label-struct">STRUCTURAL</div>
-      <div class="bim-label bim-label-mep">MEP &amp; SERVICES <span class="bim-dot-pink">●</span></div>
-      <!-- BIM Coordination Panel -->
-      <div class="bim-panel">
-        <div class="bim-panel-header">
-          <span class="bim-panel-tag">DISCIPLINE VIEW</span>
-          <span class="bim-panel-title">BIM COORDINATION</span>
+      <div class="bim-canvas-wrap">
+        <canvas id="bim-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:16px 16px 0 0;"></canvas>
+        <!-- Floating discipline labels -->
+        <div class="bim-label bim-label-arch">ARCHITECTURAL</div>
+        <div class="bim-label bim-label-struct">STRUCTURAL</div>
+        <div class="bim-label bim-label-mep">MEP &amp; SERVICES <span class="bim-dot-pink">●</span></div>
+      </div>
+      <!-- BIM Coordination Panel — bottom bar -->
+      <div class="bim-bottom-panel">
+        <div class="bim-bottom-label">
+          <span class="bim-bottom-tag">DISCIPLINE VIEW</span>
+          <span class="bim-bottom-title">BIM COORDINATION</span>
         </div>
-        <div class="bim-panel-rows">
-          <div class="bim-panel-row"><span>FLOORS</span><span class="bim-val">L0 — L5</span></div>
-          <div class="bim-panel-row"><span>GRID</span><span class="bim-val">4×3 BAYS</span></div>
-          <div class="bim-panel-row"><span>COORD</span><span class="bim-val">WGS84 / MCS</span></div>
+        <div class="bim-bottom-stat">
+          <span class="bim-bottom-key">FLOORS</span>
+          <span class="bim-bottom-val">L0 — L5</span>
+        </div>
+        <div class="bim-bottom-stat">
+          <span class="bim-bottom-key">GRID</span>
+          <span class="bim-bottom-val">4×3 BAYS</span>
+        </div>
+        <div class="bim-bottom-stat">
+          <span class="bim-bottom-key">COORD</span>
+          <span class="bim-bottom-val">WGS84 / MCS</span>
         </div>
       </div>
     </div>
