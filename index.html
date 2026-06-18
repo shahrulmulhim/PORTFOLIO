@@ -142,17 +142,112 @@
     padding-top:96px;
     overflow:hidden;
   }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:minmax(0,640px) minmax(0,1fr);
+    gap:24px;
+    align-items:center;
+    width:100%;
+  }
+  .hero-visual{
+    position:relative;
+    height:560px;
+    pointer-events:none;
+  }
   #grid-canvas{
     position:absolute;
-    top:0;right:0;
-    width:62%;
+    top:0;left:0;
+    width:100%;
     height:100%;
     z-index:0;
     opacity:0.9;
-    pointer-events:none;
   }
-  @media (max-width:860px){
-    #grid-canvas{width:100%;opacity:0.35;}
+  .hero-overlay{
+    position:absolute;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    z-index:1;
+  }
+  .bim-tag{
+    position:absolute;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+    padding:6px 12px;
+    border-radius:3px;
+    white-space:nowrap;
+    animation:floatTag 5s ease-in-out infinite;
+  }
+  .bim-tag.tag-arch{
+    top:8%; left:6%;
+    color:#5fd6ff;
+    background:rgba(95,214,255,0.1);
+    border:1px solid rgba(95,214,255,0.35);
+    animation-delay:0s;
+  }
+  .bim-tag.tag-struct{
+    top:2%; left:46%;
+    color:#39ff6a;
+    background:rgba(57,255,106,0.1);
+    border:1px solid rgba(57,255,106,0.35);
+    animation-delay:0.6s;
+  }
+  .bim-tag.tag-mep{
+    top:18%; left:68%;
+    color:#ff6f91;
+    background:rgba(255,111,145,0.1);
+    border:1px solid rgba(255,111,145,0.35);
+    animation-delay:1.2s;
+  }
+  @keyframes floatTag{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-6px);}
+  }
+  .bim-info-panel{
+    position:absolute;
+    top:8%;
+    right:2%;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+  }
+  .bim-info-row{
+    display:flex;
+    gap:22px;
+    justify-content:space-between;
+  }
+  .bim-info-row .lbl{
+    color:var(--muted-2);
+    letter-spacing:1px;
+  }
+  .bim-info-row .val{
+    color:var(--text);
+    opacity:0.85;
+  }
+  @media (max-width:1100px){
+    .bim-info-panel{display:none;}
+  }
+  /* tablet: stack visual under text, shrink it */
+  @media (max-width:900px){
+    .hero .wrap{
+      grid-template-columns:1fr;
+    }
+    .hero-visual{
+      height:360px;
+      order:2;
+      opacity:0.85;
+    }
+  }
+  /* mobile: smaller, quieter visual so it never competes with text */
+  @media (max-width:600px){
+    .hero-visual{height:260px;}
+    .bim-tag{font-size:9px; padding:4px 8px;}
+    .bim-tag.tag-mep{left:58%;}
   }
   .hero-inner{
     position:relative;
@@ -750,7 +845,6 @@
 
 <!-- ================= HERO ================= -->
 <section class="hero" id="home">
-  <canvas id="grid-canvas"></canvas>
   <div class="wrap">
     <div class="hero-inner">
       <span class="eyebrow">Diploma in Architecture · Ungku Omar Polytechnic</span>
@@ -765,6 +859,20 @@
         <div class="stat-item"><b>3</b><span>Awards Placed</span></div>
         <div class="stat-item"><b>5</b><span>Studio Semesters</span></div>
         <div class="stat-item"><b>BIM</b><span>Revit-Based Workflow</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <canvas id="grid-canvas"></canvas>
+      <div class="hero-overlay">
+        <span class="bim-tag tag-arch">Architectural</span>
+        <span class="bim-tag tag-struct">Structural</span>
+        <span class="bim-tag tag-mep">MEP &amp; Services</span>
+        <div class="bim-info-panel">
+          <div class="bim-info-row"><span class="lbl">FLOORS</span><span class="val">L0 — L5</span></div>
+          <div class="bim-info-row"><span class="lbl">GRID</span><span class="val">4×3 BAYS</span></div>
+          <div class="bim-info-row"><span class="lbl">COORD</span><span class="val">WGS84 / MCS</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1132,7 +1240,7 @@
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
-  // ---------- Hero wireframe grid animation ----------
+  // ---------- Hero 3D isometric building wireframe ----------
   const canvas = document.getElementById('grid-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, DPR;
@@ -1154,74 +1262,135 @@
     mouseY = e.clientY / window.innerHeight;
   });
 
-  const COLS = 14, ROWS = 10;
+  // grid of a "building": COLS x DEPTH bays, FLOORS storeys tall
+  const COLS = 5, DEPTH = 4, FLOORS = 6;
   let t = 0;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // fixed isometric rotation, with a slow auto-rotate + subtle mouse parallax
   function project(x, y, z, time){
-    // simple isometric-ish projection with gentle wave + parallax
-    const tiltX = (mouseY - 0.5) * 0.25;
-    const tiltY = (mouseX - 0.5) * 0.25;
-    const wave = Math.sin(x*0.6 + time*0.6) * Math.cos(y*0.5 + time*0.4) * 14;
-    const px = (x - y) * 0.86 + W*0.52 + tiltY*40;
-    const py = (x + y) * 0.46 - wave - H*0.08 + tiltX*40 + z;
-    return [px, py];
+    const autoRot = time * 0.05;
+    const tiltY = (mouseX - 0.5) * 0.5 + autoRot;
+    const tiltX = 0.62 + (mouseY - 0.5) * 0.18;
+
+    // rotate around Y axis
+    const cosY = Math.cos(tiltY), sinY = Math.sin(tiltY);
+    const x1 = x * cosY - z * sinY;
+    const z1 = x * sinY + z * cosY;
+
+    // rotate around X axis (isometric tilt)
+    const cosX = Math.cos(tiltX), sinX = Math.sin(tiltX);
+    const y1 = y * cosX - z1 * sinX;
+    const z2 = y * sinX + z1 * cosX;
+
+    const scale = 1 + z2 * 0.0003;
+    const px = x1 * scale + W * 0.52;
+    const py = y1 * scale + H * 0.5;
+    return [px, py, z2];
+  }
+
+  function buildPoints(time){
+    const unit = Math.min(W, H) * 0.052;
+    const pts = {};
+    for(let f=0; f<=FLOORS; f++){
+      for(let r=0; r<=DEPTH; r++){
+        for(let c=0; c<=COLS; c++){
+          const x = (c - COLS/2) * unit;
+          const y = (FLOORS/2 - f) * unit * 0.78;
+          const z = (r - DEPTH/2) * unit;
+          pts[`${f}-${r}-${c}`] = project(x, y, z, time);
+        }
+      }
+    }
+    return pts;
   }
 
   function draw(){
     ctx.clearRect(0,0,W,H);
-    const cellW = W / (COLS*1.05);
-    const cellH = cellW * 0.62;
+    const pts = buildPoints(t);
 
-    const points = [];
-    for(let r=0; r<=ROWS; r++){
-      points.push([]);
-      for(let c=0; c<=COLS; c++){
-        const x = (c - COLS/2) * cellW;
-        const y = (r - 2) * cellH;
-        const [px, py] = project(x, y, 0, t);
-        points[r].push([px, py]);
+    // collect edges with depth (z) for simple painter's-algorithm-ish ordering
+    const edges = [];
+    function addEdge(k1,k2, baseAlpha, hue){
+      const p1 = pts[k1], p2 = pts[k2];
+      if(!p1 || !p2) return;
+      const avgZ = (p1[2] + p2[2]) / 2;
+      edges.push({p1,p2,baseAlpha,hue,avgZ});
+    }
+
+    // vertical edges (columns) - drawn lighter
+    for(let f=0; f<FLOORS; f++){
+      for(let r=0; r<=DEPTH; r++){
+        for(let c=0; c<=COLS; c++){
+          addEdge(`${f}-${r}-${c}`, `${f+1}-${r}-${c}`, 0.12, 0);
+        }
       }
     }
+    // horizontal edges along columns (x) per floor/row
+    for(let f=0; f<=FLOORS; f++){
+      for(let r=0; r<=DEPTH; r++){
+        for(let c=0; c<COLS; c++){
+          addEdge(`${f}-${r}-${c}`, `${f}-${r}-${c+1}`, 0.16, 0);
+        }
+      }
+    }
+    // horizontal edges along depth (z) per floor/col
+    for(let f=0; f<=FLOORS; f++){
+      for(let c=0; c<=COLS; c++){
+        for(let r=0; r<DEPTH; r++){
+          addEdge(`${f}-${r}-${c}`, `${f}-${r+1}-${c}`, 0.16, 0);
+        }
+      }
+    }
+
+    edges.sort((a,b) => a.avgZ - b.avgZ);
 
     ctx.lineWidth = 1;
-    for(let r=0; r<=ROWS; r++){
-      for(let c=0; c<=COLS; c++){
-        const [px, py] = points[r][c];
-        if(c < COLS){
-          const [nx, ny] = points[r][c+1];
-          const grad = ctx.createLinearGradient(px,py,nx,ny);
-          const alpha = 0.10 + 0.10*Math.sin((r+c)*0.3 + t*0.5);
-          grad.addColorStop(0, `rgba(57,255,106,${Math.max(0.04,alpha)})`);
-          grad.addColorStop(1, `rgba(57,255,106,${Math.max(0.04,alpha*0.6)})`);
-          ctx.strokeStyle = grad;
+    edges.forEach(e => {
+      const flicker = e.baseAlpha + 0.05*Math.sin(t*0.6 + e.p1[0]*0.01);
+      ctx.strokeStyle = `rgba(57,255,106,${Math.max(0.03, flicker)})`;
+      ctx.beginPath();
+      ctx.moveTo(e.p1[0], e.p1[1]);
+      ctx.lineTo(e.p2[0], e.p2[1]);
+      ctx.stroke();
+    });
+
+    // nodes at floor intersections
+    for(let f=0; f<=FLOORS; f+=2){
+      for(let r=0; r<=DEPTH; r++){
+        for(let c=0; c<=COLS; c++){
+          const p = pts[`${f}-${r}-${c}`];
+          if(!p) continue;
+          const pulse = 1.1 + Math.sin(t*1.3 + f + r + c)*0.6;
           ctx.beginPath();
-          ctx.moveTo(px,py);
-          ctx.lineTo(nx,ny);
-          ctx.stroke();
-        }
-        if(r < ROWS){
-          const [nx, ny] = points[r+1][c];
-          ctx.strokeStyle = `rgba(57,255,106,${0.06 + 0.06*Math.sin((r+c)*0.3+t*0.5)})`;
-          ctx.beginPath();
-          ctx.moveTo(px,py);
-          ctx.lineTo(nx,ny);
-          ctx.stroke();
+          ctx.arc(p[0], p[1], pulse, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(57,255,106,0.45)';
+          ctx.fill();
         }
       }
     }
 
-    // nodes
-    for(let r=0; r<=ROWS; r+=2){
-      for(let c=0; c<=COLS; c+=2){
-        const [px,py] = points[r][c];
-        const pulse = 1.4 + Math.sin(t*1.4 + r + c)*0.8;
-        ctx.beginPath();
-        ctx.arc(px,py,pulse,0,Math.PI*2);
-        ctx.fillStyle = 'rgba(57,255,106,0.55)';
-        ctx.fill();
-      }
-    }
+    // accent "clash detection" markers — a couple of pulsing highlighted nodes
+    const accents = [
+      {key:`${Math.round(FLOORS*0.4)}-${Math.round(DEPTH*0.55)}-${Math.round(COLS*0.35)}`, color:'255,111,145'},
+      {key:`${Math.round(FLOORS*0.7)}-${Math.round(DEPTH*0.3)}-${Math.round(COLS*0.65)}`, color:'95,214,255'}
+    ];
+    accents.forEach((a, i) => {
+      const p = pts[a.key];
+      if(!p) return;
+      const pulse = 4 + Math.sin(t*2 + i*2)*2.5;
+      const glow = ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],18);
+      glow.addColorStop(0, `rgba(${a.color},0.55)`);
+      glow.addColorStop(1, `rgba(${a.color},0)`);
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(p[0],p[1],18,0,Math.PI*2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(p[0],p[1],pulse*0.4,0,Math.PI*2);
+      ctx.fillStyle = `rgba(${a.color},0.9)`;
+      ctx.fill();
+    });
 
     if(!reduceMotion){
       t += 0.012;
