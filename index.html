@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mulhim — Architecture & BIM Portfolio</title>
+<meta name="description" content="Muhammad Mulhim — Architecture Student & BIM Modeler. Designing the future of the built environment.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050505;
+  --bg2:#0a0a0a;
+  --bg3:#0f0f0f;
+  --green:#39FF14;
+  --green-dim:rgba(57,255,20,0.15);
+  --green-glow:rgba(57,255,20,0.4);
+  --white:#ffffff;
+  --gray:#888;
+  --gray2:#444;
+  --border:rgba(57,255,20,0.2);
+  --font:'Space Grotesk',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--font);font-weight:300;overflow-x:hidden}
+::selection{background:var(--green);color:#000}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--green);border-radius:2px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.25rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:background 0.3s,border 0.3s}
+nav.scrolled{background:rgba(5,5,5,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--green);letter-spacing:0.1em;text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:var(--gray);transition:color 0.2s}
+.nav-links a:hover{color:var(--green)}
+.nav-cta{background:transparent;border:1px solid var(--green);color:var(--green);padding:0.6rem 1.4rem;font-family:var(--font);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;text-decoration:none}
+.nav-cta:hover{background:var(--green);color:#000}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:1px;background:var(--green);transition:all 0.3s}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:6rem 3rem 3rem;position:relative;overflow:hidden}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(57,255,20,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-left{position:relative;z-index:2}
+.hero-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--green);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem}
+.hero-tag::before{content:'';display:block;width:24px;height:1px;background:var(--green)}
+.hero-title{font-size:clamp(2.8rem,6vw,5.5rem);font-weight:700;line-height:1.0;letter-spacing:-0.03em;margin-bottom:1.5rem}
+.hero-title .green{color:var(--green)}
+.hero-title .outline{-webkit-text-stroke:1px rgba(255,255,255,0.3);color:transparent}
+.hero-sub{font-size:16px;color:var(--gray);line-height:1.7;max-width:420px;margin-bottom:2.5rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--green);color:#000;padding:0.85rem 2rem;font-family:var(--font);font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem}
+.btn-primary:hover{box-shadow:0 0 30px var(--green-glow);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--white);padding:0.85rem 2rem;font-family:var(--font);font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border:1px solid var(--gray2);cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem}
+.btn-outline:hover{border-color:var(--green);color:var(--green)}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+.hero-stat-num{font-size:1.8rem;font-weight:700;color:var(--green);font-family:var(--mono)}
+.hero-stat-label{font-size:12px;color:var(--gray);letter-spacing:0.08em;margin-top:0.2rem}
+.hero-right{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+#hero-canvas{width:100%;max-width:560px;height:480px}
+
+/* ── SECTION BASE ── */
+section{padding:7rem 3rem;position:relative}
+.section-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;color:var(--green);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.75rem}
+.section-tag::before{content:'';display:block;width:24px;height:1px;background:var(--green)}
+.section-title{font-size:clamp(2rem,4vw,3.5rem);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:1rem}
+.section-sub{font-size:15px;color:var(--gray);max-width:500px;line-height:1.7;margin-bottom:4rem}
+
+/* ── ABOUT ── */
+#about{background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:center}
+.about-img-wrap{position:relative}
+.about-img-box{width:100%;aspect-ratio:3/4;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:var(--gray);font-size:13px;position:relative;overflow:hidden}
+.about-img-box::before{content:'';position:absolute;inset:12px;border:1px dashed rgba(57,255,20,0.3)}
+.about-img-box .plus{font-size:2rem;color:var(--green)}
+.about-corner{position:absolute;width:20px;height:20px;border-color:var(--green);border-style:solid}
+.about-corner.tl{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.about-corner.tr{top:-1px;right:-1px;border-width:2px 2px 0 0}
+.about-corner.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px}
+.about-corner.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.about-content .section-title{margin-bottom:1.5rem}
+.about-content p{font-size:15px;color:var(--gray);line-height:1.8;margin-bottom:1rem}
+.about-content p strong{color:var(--white);font-weight:500}
+.about-tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;padding:0.4rem 0.9rem;border:1px solid var(--border);color:var(--green);text-transform:uppercase}
+.about-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:2.5rem;border:1px solid var(--border)}
+.about-stat{background:var(--bg2);padding:1.25rem;text-align:center}
+.about-stat-num{font-family:var(--mono);font-size:1.6rem;font-weight:700;color:var(--green)}
+.about-stat-label{font-size:11px;color:var(--gray);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.3rem}
+
+/* ── PROJECTS ── */
+#projects{background:var(--bg)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1px;background:var(--border)}
+.project-card{background:var(--bg);padding:0;cursor:pointer;transition:background 0.3s;position:relative;overflow:hidden;border:1px solid transparent}
+.project-card:hover{background:var(--bg2);border-color:var(--border)}
+.project-card:hover .project-img-inner{transform:scale(1.03)}
+.project-card:hover .project-arrow{color:var(--green);transform:translate(3px,-3px)}
+.project-img{width:100%;aspect-ratio:16/10;background:var(--bg3);overflow:hidden;position:relative}
+.project-img-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform 0.5s;font-size:13px;color:var(--gray2);letter-spacing:0.1em;flex-direction:column;gap:0.5rem}
+.project-img-inner .img-plus{font-size:1.5rem;color:var(--green);opacity:0.5}
+.project-glow{position:absolute;inset:0;opacity:0;transition:opacity 0.3s;background:linear-gradient(135deg,rgba(57,255,20,0.05),transparent)}
+.project-card:hover .project-glow{opacity:1}
+.project-body{padding:1.75rem}
+.project-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--green);text-transform:uppercase;margin-bottom:0.75rem}
+.project-name{font-size:1.3rem;font-weight:600;letter-spacing:-0.01em;margin-bottom:0.75rem;line-height:1.2}
+.project-desc{font-size:13px;color:var(--gray);line-height:1.7;margin-bottom:1.25rem}
+.project-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--gray2);padding-top:1rem}
+.project-software{display:flex;flex-wrap:wrap;gap:0.4rem}
+.sw-badge{font-family:var(--mono);font-size:10px;padding:0.25rem 0.6rem;background:rgba(57,255,20,0.08);color:var(--green);letter-spacing:0.08em}
+.project-arrow{font-size:1.2rem;color:var(--gray2);transition:all 0.2s}
+
+/* ── SKILLS ── */
+#skills{background:var(--bg2)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.skill-card{background:var(--bg2);padding:1.75rem;transition:background 0.2s;position:relative;overflow:hidden}
+.skill-card:hover{background:var(--bg3)}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.skill-card:hover::before{transform:scaleX(1)}
+.skill-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
+.skill-name{font-size:14px;font-weight:600;margin-bottom:0.4rem}
+.skill-level{font-family:var(--mono);font-size:11px;color:var(--green);margin-bottom:1rem}
+.skill-bar-track{height:1px;background:var(--gray2);margin-top:0.75rem}
+.skill-bar-fill{height:1px;background:var(--green);width:0;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);box-shadow:0 0 6px var(--green)}
+
+/* ── EXPERIENCE ── */
+#experience{background:var(--bg)}
+.timeline{position:relative;max-width:800px;margin:0 auto}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border)}
+.tl-item{padding:0 0 3.5rem 3rem;position:relative}
+.tl-item::before{content:'';position:absolute;left:-4px;top:6px;width:9px;height:9px;background:var(--bg);border:1px solid var(--green);transform:rotate(45deg)}
+.tl-item.active::before{background:var(--green);box-shadow:0 0 12px var(--green)}
+.tl-date{font-family:var(--mono);font-size:11px;letter-spacing:0.15em;color:var(--green);text-transform:uppercase;margin-bottom:0.6rem}
+.tl-title{font-size:1.2rem;font-weight:600;margin-bottom:0.3rem}
+.tl-place{font-size:13px;color:var(--gray);margin-bottom:0.75rem}
+.tl-desc{font-size:14px;color:var(--gray);line-height:1.7}
+.tl-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem}
+
+/* ── CERTIFICATES ── */
+#certificates{background:var(--bg2)}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.cert-card{background:var(--bg2);padding:1.75rem;transition:background 0.2s}
+.cert-card:hover{background:var(--bg3)}
+.cert-icon{width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:1.2rem}
+.cert-name{font-size:14px;font-weight:600;margin-bottom:0.4rem;line-height:1.3}
+.cert-issuer{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem}
+.cert-year{font-size:12px;color:var(--gray)}
+
+/* ── CONTACT ── */
+#contact{background:var(--bg)}
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.contact-left .section-title{margin-bottom:1rem}
+.contact-desc{font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:2.5rem}
+.contact-socials{display:flex;flex-direction:column;gap:0}
+.social-link{display:flex;align-items:center;gap:1.25rem;padding:1rem 0;border-bottom:1px solid var(--gray2);text-decoration:none;transition:border-color 0.2s}
+.social-link:hover .social-label{color:var(--green)}
+.social-link:hover{border-bottom-color:var(--green)}
+.social-platform{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);width:80px;flex-shrink:0}
+.social-label{font-size:14px;color:var(--white);transition:color 0.2s}
+.social-arrow{margin-left:auto;color:var(--gray);font-size:1rem;transition:all 0.2s}
+.social-link:hover .social-arrow{color:var(--green);transform:translate(3px,-3px)}
+.contact-form{display:flex;flex-direction:column;gap:1.75rem}
+.form-group{display:flex;flex-direction:column;gap:0.5rem}
+.form-group label{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray)}
+.form-group input,.form-group textarea{background:transparent;border:none;border-bottom:1px solid var(--gray2);padding:0.75rem 0;font-family:var(--font);font-size:14px;font-weight:300;color:var(--white);outline:none;transition:border-color 0.2s;resize:none}
+.form-group input:focus,.form-group textarea:focus{border-bottom-color:var(--green)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--gray2)}
+.form-group textarea{min-height:110px}
+.form-submit{align-self:flex-start;background:var(--green);color:#000;border:none;padding:0.9rem 2.25rem;font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.form-submit:hover{box-shadow:0 0 30px var(--green-glow);transform:translateY(-2px)}
+
+/* ── FOOTER ── */
+footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:var(--mono);font-size:1rem;color:var(--green);font-weight:700}
+.footer-text{font-size:12px;color:var(--gray);letter-spacing:0.08em}
+
+/* ── PARTICLES ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.4}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .mobile-menu{display:none;position:fixed;inset:0;background:rgba(5,5,5,0.97);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+  .mobile-menu.open{display:flex}
+  .mobile-menu a{font-size:1.5rem;color:var(--white);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;transition:color 0.2s}
+  .mobile-menu a:hover{color:var(--green)}
+  .mobile-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--green);font-size:1.5rem;cursor:pointer}
+  #hero{grid-template-columns:1fr;padding:6rem 1.5rem 3rem;text-align:center}
+  #hero-canvas{height:280px;max-width:100%}
+  .hero-btns{justify-content:center}
+  .hero-stats{justify-content:center}
+  .hero-tag{justify-content:center}
+  section{padding:5rem 1.5rem}
+  .about-grid,.contact-wrap{grid-template-columns:1fr;gap:3rem}
+  .about-img-box{aspect-ratio:16/9}
+  .timeline::before{left:0}
+  footer{flex-direction:column;text-align:center}
+}
+@media(max-width:480px){
+  .hero-stats{flex-direction:column;gap:1.5rem;align-items:center}
+  .skills-grid{grid-template-columns:1fr 1fr}
+  .certs-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal{transition:none}
+  .skill-bar-fill{transition:none}
+  *{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Particles Canvas -->
+<canvas id="particles"></canvas>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#skills" onclick="closeMobile()">BIM Skills</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#certificates" onclick="closeMobile()">Certificates</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#contact" onclick="closeMobile()" style="color:var(--green);border:1px solid var(--green);padding:0.75rem 2rem;font-size:1rem">Hire Me</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">MULHIM</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">BIM Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certificates">Certificates</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire Me</a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-left">
+    <p class="hero-tag">Architecture & BIM Portfolio 2025</p>
+    <h1 class="hero-title">
+      Designing<br>
+      the <span class="green">Future</span><br>
+      of <span class="outline">Architecture</span>
+    </h1>
+    <p class="hero-sub">Architecture student & BIM Modeler translating complex spatial ideas into precise digital models — bridging design, technology, and the built environment.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Portfolio →</a>
+      <a href="#contact" class="btn-outline">Contact Me</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num" data-count="10">0</div>
+        <div class="hero-stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="hero-stat-num" data-count="5">0</div>
+        <div class="hero-stat-label">Certifications</div>
+      </div>
+      <div>
+        <div class="hero-stat-num" data-count="3">0</div>
+        <div class="hero-stat-label">Years BIM</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <div class="about-img-box">
+        <div class="about-corner tl"></div>
+        <div class="about-corner tr"></div>
+        <div class="about-corner bl"></div>
+        <div class="about-corner br"></div>
+        <span class="plus">+</span>
+        <span style="font-size:12px;letter-spacing:0.1em;color:var(--gray)">Add photo here</span>
+        <span style="font-size:11px;color:var(--gray2);margin-top:0.5rem">Replace with &lt;img&gt; tag</span>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <p class="section-tag">About Me</p>
+      <h2 class="section-title">Architecture.<br><span style="color:var(--green)">BIM.</span> Innovation.</h2>
+      <p>I am <strong>Muhammad Mulhim</strong>, a Diploma in Architecture student (Semester 6) at <strong>Politeknik Ungku Omar, Perak</strong> — consistently on the Dean's List with a CGPA of <strong>3.77</strong>.</p>
+      <p>My 20-week industrial training at <strong>Salur Kuasa Digital Sdn Bhd, Petaling Jaya</strong> as a BIM Modeler gave me real-world exposure on landmark projects including <strong>KLIA QAQC</strong> and the <strong>Royal Museum (Muzium Diraja)</strong>.</p>
+      <p>I specialise in the intersection of <strong>heritage architecture</strong> and digital construction technology — leveraging BIM, VR, and IBS modular systems to serve communities and preserve cultural memory.</p>
+      <div class="about-tags">
+        <span class="tag">BIM Modeler</span>
+        <span class="tag">Architecture Student</span>
+        <span class="tag">VR Developer</span>
+        <span class="tag">Heritage</span>
+        <span class="tag">IBS</span>
+      </div>
+      <div class="about-stats-row">
+        <div class="about-stat"><div class="about-stat-num">3.77</div><div class="about-stat-label">CGPA</div></div>
+        <div class="about-stat"><div class="about-stat-num">20wk</div><div class="about-stat-label">Internship</div></div>
+        <div class="about-stat"><div class="about-stat-num">5+</div><div class="about-stat-label">Software</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div style="text-align:center;margin-bottom:4rem" class="reveal">
+    <p class="section-tag" style="justify-content:center">Selected Works</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub" style="margin:0 auto">Real-world BIM coordination, heritage documentation, and thesis design — each project pushing the boundaries of architectural technology.</p>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-img"><div class="project-img-inner"><span class="img-plus">+</span><span>Add project image</span></div><div class="project-glow"></div></div>
+      <div class="project-body">
+        <p class="project-tag">Thesis Design · 2025</p>
+        <h3 class="project-name">RRR Market & Learning Hub</h3>
+        <p class="project-desc">Zero-waste community hub built around the Reduce, Reuse, Recycle philosophy — integrating IBS modular construction with a Living Loop spatial strategy for urban communities.</p>
+        <div class="project-footer">
+          <div class="project-software"><span class="sw-badge">Revit</span><span class="sw-badge">SketchUp</span><span class="sw-badge">IBS</span></div>
+          <span class="project-arrow">↗</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-img"><div class="project-img-inner"><span class="img-plus">+</span><span>Add project image</span></div><div class="project-glow"></div></div>
+      <div class="project-body">
+        <p class="project-tag">VR Heritage · 2024</p>
+        <h3 class="project-name">Masjid Kapitan Keling — VR</h3>
+        <p class="project-desc">Immersive Unity 6 VR experience documenting the historic Masjid Kapitan Keling in George Town, Penang — preserving heritage architecture through interactive digital storytelling.</p>
+        <div class="project-footer">
+          <div class="project-software"><span class="sw-badge">Unity 6</span><span class="sw-badge">XR Toolkit</span><span class="sw-badge">Revit</span></div>
+          <span class="project-arrow">↗</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-img"><div class="project-img-inner"><span class="img-plus">+</span><span>Add project image</span></div><div class="project-glow"></div></div>
+      <div class="project-body">
+        <p class="project-tag">BIM · Industrial Training 2024</p>
+        <h3 class="project-name">KLIA QAQC BIM Model</h3>
+        <p class="project-desc">Quality assurance BIM coordination for Kuala Lumpur International Airport — applying ISO 19650 standards and CDE workflow during industrial training at Salur Kuasa Digital.</p>
+        <div class="project-footer">
+          <div class="project-software"><span class="sw-badge">Revit 2025</span><span class="sw-badge">ISO 19650</span><span class="sw-badge">CDE</span></div>
+          <span class="project-arrow">↗</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-img"><div class="project-img-inner"><span class="img-plus">+</span><span>Add project image</span></div><div class="project-glow"></div></div>
+      <div class="project-body">
+        <p class="project-tag">BIM · Industrial Training 2024</p>
+        <h3 class="project-name">Royal Museum (Muzium Diraja)</h3>
+        <p class="project-desc">BIM modeling for the Royal Museum project — translating architectural documentation into coordinated digital models with precise workset and ISO naming conventions.</p>
+        <div class="project-footer">
+          <div class="project-software"><span class="sw-badge">Revit</span><span class="sw-badge">BIM 360</span><span class="sw-badge">AutoCAD</span></div>
+          <span class="project-arrow">↗</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div style="text-align:center;margin-bottom:4rem" class="reveal">
+    <p class="section-tag" style="justify-content:center">Technical Expertise</p>
+    <h2 class="section-title">BIM Skills</h2>
+    <p class="section-sub" style="margin:0 auto">A professional toolkit spanning BIM authoring, coordination, visualisation, and immersive technology — built through academic training and real project delivery.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal"><span class="skill-icon">🏗️</span><div class="skill-name">Autodesk Revit</div><div class="skill-level">Advanced</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="90%"></div></div></div>
+    <div class="skill-card reveal"><span class="skill-icon">📐</span><div class="skill-name">AutoCAD</div><div class="skill-level">Advanced</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85%"></div></div></div>
+    <div class="skill-card reveal"><span class="skill-icon">🔍</span><div class="skill-name">Navisworks</div><div class="skill-level">Intermediate</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="70%"></div></div></div>
+    <div class="skill-card reveal"><span class="skill-icon">☁️</span><div class="skill-name">BIM 360</div><div class="skill-level">Intermediate</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="72%"></div></div></div>
+    <div class="skill-card reveal"><span class="skill-icon">🎮</span><div class="skill-name">Unity 6 (VR/XR)</div><div class="skill-level">Intermediate</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="78%"></div></div></div>
+    <div class="skill-card reveal"><span class="skill-icon">🏠</span><div class="skill-name">SketchUp Pro</div><div class="skill-level">Advanced</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88%"></div></div></div>
+    <div class="skill-card reveal"><span class="skill-icon">✨</span><div class="skill-name">Enscape</div><div class="skill-level">Intermediate</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="75%"></div></div></div>
+    <div class="skill-card reveal"><span class="skill-icon">🎨</span><div class="skill-name">Adobe InDesign</div><div class="skill-level">Proficient</div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80%"></div></div></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal" style="margin-bottom:4rem">
+    <p class="section-tag">Career Path</p>
+    <h2 class="section-title">Experience</h2>
+    <p class="section-sub">From academic competitions to industry-grade BIM coordination — a timeline of growth in architecture and digital construction.</p>
+  </div>
+  <div class="timeline">
+    <div class="tl-item active reveal">
+      <div class="tl-date">Jan 2024 — Jun 2024</div>
+      <div class="tl-title">BIM Modeler — Industrial Training</div>
+      <div class="tl-place">Salur Kuasa Digital Sdn Bhd · Petaling Jaya, Selangor</div>
+      <div class="tl-desc">20-week industrial placement delivering BIM coordination for KLIA QAQC and Muzium Diraja. Applied ISO 19650 standards, CDE folder structure, workset setup, and Revit 2025 workflows in a professional BIM team environment.</div>
+      <div class="tl-tags"><span class="tag">Revit 2025</span><span class="tag">ISO 19650</span><span class="tag">BIM 360</span><span class="tag">KLIA</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-date">2024</div>
+      <div class="tl-title">BIM Challenge Competition</div>
+      <div class="tl-place">National Competition · Politeknik Ungku Omar</div>
+      <div class="tl-desc">Competed in BIM Challenge using Revit 2025, demonstrating coordination, clash detection, and model accuracy under competition conditions.</div>
+      <div class="tl-tags"><span class="tag">BIM Challenge</span><span class="tag">Revit</span><span class="tag">Competition</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-date">2023 — 2024</div>
+      <div class="tl-title">VR Heritage Research Project</div>
+      <div class="tl-place">Politeknik Ungku Omar · Academic Research</div>
+      <div class="tl-desc">Developed an immersive Unity 6 VR experience of Masjid Kapitan Keling, George Town, Penang — combining Revit modeling, FBX export workflow, XR Interaction Toolkit, and heritage documentation research.</div>
+      <div class="tl-tags"><span class="tag">Unity 6</span><span class="tag">Heritage</span><span class="tag">XR</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-date">2022 — Present</div>
+      <div class="tl-title">Diploma in Architecture</div>
+      <div class="tl-place">Politeknik Ungku Omar · Perak, Malaysia</div>
+      <div class="tl-desc">Semester 6 student under Jabatan Kejuruteraan Awam. CGPA 3.77, consistent Dean's List placement. Thesis project: RRR Market & Learning Hub — a zero-waste community hub using IBS modular construction.</div>
+      <div class="tl-tags"><span class="tag">CGPA 3.77</span><span class="tag">Dean's List</span><span class="tag">Thesis</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATES -->
+<section id="certificates">
+  <div style="text-align:center;margin-bottom:4rem" class="reveal">
+    <p class="section-tag" style="justify-content:center">Credentials</p>
+    <h2 class="section-title">Certificates</h2>
+    <p class="section-sub" style="margin:0 auto">Professional and academic certifications validating expertise in BIM, architecture, and digital design.</p>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-name">Autodesk Certified User — Revit</div>
+      <div class="cert-issuer">Autodesk</div>
+      <div class="cert-year">Add year</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-name">BIM Competition Certificate</div>
+      <div class="cert-issuer">National BIM Competition</div>
+      <div class="cert-year">2024</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-name">Dean's List Award</div>
+      <div class="cert-issuer">Politeknik Ungku Omar</div>
+      <div class="cert-year">2022 — Present</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-name">Add Certificate Here</div>
+      <div class="cert-issuer">Issuing Body</div>
+      <div class="cert-year">Year</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="reveal">
+      <p class="section-tag">Get In Touch</p>
+      <h2 class="section-title">Let's <span style="color:var(--green)">Build</span><br>Together.</h2>
+      <p class="contact-desc">Open to internship opportunities, project collaborations, and university interviews. Let's connect and create something remarkable.</p>
+      <div class="contact-socials">
+        <a href="mailto:mulhim@email.com" class="social-link">
+          <span class="social-platform">Email</span>
+          <span class="social-label">mulhim@email.com</span>
+          <span class="social-arrow">↗</span>
+        </a>
+        <a href="https://linkedin.com/in/mulhim" target="_blank" class="social-link">
+          <span class="social-platform">LinkedIn</span>
+          <span class="social-label">linkedin.com/in/mulhim</span>
+          <span class="social-arrow">↗</span>
+        </a>
+        <a href="#" class="social-link">
+          <span class="social-platform">Behance</span>
+          <span class="social-label">behance.net/mulhim</span>
+          <span class="social-arrow">↗</span>
+        </a>
+        <a href="#" class="social-link">
+          <span class="social-platform">Instagram</span>
+          <span class="social-label">@mulhim.design</span>
+          <span class="social-arrow">↗</span>
+        </a>
+        <a href="#" class="social-link">
+          <span class="social-platform">Location</span>
+          <span class="social-label">Petaling Jaya, Selangor, Malaysia</span>
+          <span class="social-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="contact-form">
+        <div class="form-group">
+          <label for="c-name">Your Name</label>
+          <input type="text" id="c-name" placeholder="Ahmad bin Abdullah">
+        </div>
+        <div class="form-group">
+          <label for="c-email">Email Address</label>
+          <input type="email" id="c-email" placeholder="ahmad@email.com">
+        </div>
+        <div class="form-group">
+          <label for="c-subject">Subject</label>
+          <input type="text" id="c-subject" placeholder="Project collaboration / Interview">
+        </div>
+        <div class="form-group">
+          <label for="c-msg">Message</label>
+          <textarea id="c-msg" placeholder="Tell me about your project..."></textarea>
+        </div>
+        <button class="form-submit">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">MULHIM</span>
+  <span class="footer-text">© 2025 Muhammad Mulhim · Architecture & BIM</span>
+  <span class="footer-text">mulhimdesign.com</span>
+</footer>
+
+<script>
+// ── PARTICLES ──
+(function(){
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, pts = [];
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  for(let i=0;i<60;i++) pts.push({x:Math.random()*1920,y:Math.random()*1080,vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,r:Math.random()*1.5+0.5});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(57,255,20,0.6)'; ctx.fill();
+    });
+    pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<120){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(57,255,20,${0.08*(1-d/120)})`;ctx.lineWidth=0.5;ctx.stroke();}
+    }));
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── HERO 3D WIREFRAME ──
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, rot = 0, mouseX = 0, mouseY = 0, targetRX = 0, targetRY = 0, rx = 0, ry = 0;
+
+  function resize(){
+    W = canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+    H = canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', ()=>{ ctx.setTransform(1,0,0,1,0,0); resize(); });
+
+  document.addEventListener('mousemove', e=>{
+    targetRX = (e.clientY / window.innerHeight - 0.5) * 0.4;
+    targetRY = (e.clientX / window.innerWidth - 0.5) * 0.6;
+  });
+
+  function project(x,y,z,rx,ry){
+    // rotate Y
+    let x1 = x*Math.cos(ry) - z*Math.sin(ry);
+    let z1 = x*Math.sin(ry) + z*Math.cos(ry);
+    // rotate X
+    let y1 = y*Math.cos(rx) - z1*Math.sin(rx);
+    let z2 = y*Math.sin(rx) + z1*Math.cos(rx);
+    const fov = 600, scale = fov/(fov+z2+200);
+    const cw = canvas.offsetWidth/2, ch = canvas.offsetHeight/2;
+    return { sx: cw + x1*scale, sy: ch + y1*scale, z: z2, scale };
+  }
+
+  // Building geometry: floors + grid
+  function buildingVerts(){
+    const verts = [], edges = [];
+    const floors = 8, W2 = 80, D = 60, floorH = 30;
+    for(let f=0;f<=floors;f++){
+      const y = -f*floorH + floors*floorH/2;
+      const base = verts.length;
+      verts.push([-W2,y,-D],[ W2,y,-D],[ W2,y, D],[-W2,y, D]);
+      edges.push([base,base+1],[base+1,base+2],[base+2,base+3],[base+3,base]);
+      if(f>0){
+        const prev = base-4;
+        [0,1,2,3].forEach(i=>edges.push([prev+i,base+i]));
+      }
+    }
+    // vertical grid lines
+    const cols = 4;
+    for(let c=1;c<cols;c++){
+      const x = -W2 + c*(2*W2/cols);
+      const base = verts.length;
+      verts.push([x,-floors*floorH/2,-D],[x,floors*floorH/2,-D]);
+      edges.push([base,base+1]);
+      verts.push([x,-floors*floorH/2,D],[x,floors*floorH/2,D]);
+      edges.push([base+2,base+3]);
+    }
+    return {verts, edges};
+  }
+  const {verts, edges} = buildingVerts();
+
+  function draw(){
+    const cw = canvas.offsetWidth, ch = canvas.offsetHeight;
+    ctx.clearRect(0,0,cw,ch);
+    rot += 0.004;
+    rx += (targetRX - rx) * 0.05;
+    ry += (targetRY + rot - ry) * 0.05;
+
+    const projected = verts.map(([x,y,z])=>project(x,y,z,rx,ry));
+
+    edges.forEach(([a,b])=>{
+      const pa = projected[a], pb = projected[b];
+      const avgZ = (pa.z+pb.z)/2;
+      const alpha = Math.max(0.05, Math.min(0.7, (avgZ+300)/600));
+      ctx.beginPath();
+      ctx.moveTo(pa.sx, pa.sy);
+      ctx.lineTo(pb.sx, pb.sy);
+      ctx.strokeStyle = `rgba(57,255,20,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    });
+
+    // Glow dots at vertices
+    projected.forEach(p=>{
+      const alpha = Math.max(0, Math.min(0.9, (p.z+300)/600));
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, 1.5*p.scale, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(57,255,20,${alpha})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── NAV SCROLL ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll',()=>{ navbar.classList.toggle('scrolled', window.scrollY > 50); });
+
+// ── MOBILE MENU ──
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open'));
+function closeMobile(){ document.getElementById('mobileMenu').classList.remove('open'); }
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── SKILL BARS ──
+const skillObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.skill-bar-fill').forEach(b=>{ b.style.width = b.dataset.width; });
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('#skills').forEach(el=>skillObs.observe(el));
+document.querySelectorAll('.skill-bar-fill').forEach(b=>b.style.width='0%');
+
+// ── COUNTER ANIMATION ──
+function animateCount(el, target){
+  let current = 0;
+  const step = target / 40;
+  const interval = setInterval(()=>{
+    current += step;
+    if(current >= target){ current = target; clearInterval(interval); }
+    el.textContent = Math.floor(current) + '+';
+  }, 40);
+}
+const countObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('[data-count]').forEach(el=>{
+        animateCount(el, parseInt(el.dataset.count));
+      });
+      countObs.disconnect();
+    }
+  });
+},{threshold:0.5});
+const heroEl = document.getElementById('hero');
+if(heroEl) countObs.observe(heroEl);
+</script>
+</body>
+</html>
