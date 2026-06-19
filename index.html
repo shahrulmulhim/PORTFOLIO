@@ -288,6 +288,198 @@
   .bim-panel-rows{display:flex;flex-direction:column;gap:9px;}
   .bim-panel-row{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted-2);text-transform:uppercase;letter-spacing:0.5px;}
   .bim-val{color:var(--text);font-size:9.5px;}
+
+
+  /* ===== FIVE-SEMESTER PROJECT SHOWCASE (UPDATED) ===== */
+  #projects{overflow:hidden;}
+  #projects .section-head{max-width:760px;}
+  #projects .section-desc{max-width:720px;}
+
+  #projects .project-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:14px;
+    background:transparent;
+    border:0;
+    align-items:stretch;
+  }
+  #projects .project-card,
+  #projects .project-card:first-child,
+  #projects .project-card:nth-child(n){
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    min-height:100%;
+    padding:22px;
+    background:linear-gradient(180deg,rgba(19,24,16,.96),rgba(12,16,12,.96));
+    border:1px solid var(--line)!important;
+    border-radius:12px;
+    overflow:hidden;
+    color:inherit;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s,background .3s;
+  }
+  #projects .project-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg,rgba(57,255,106,.09),transparent 44%);
+    opacity:0;
+    transition:opacity .3s;
+    pointer-events:none;
+  }
+  #projects .project-card:hover{
+    transform:translateY(-7px);
+    border-color:rgba(57,255,106,.48)!important;
+    box-shadow:0 22px 50px rgba(0,0,0,.28),0 0 24px rgba(57,255,106,.08);
+    background:linear-gradient(180deg,rgba(22,29,19,.98),rgba(12,16,12,.98));
+  }
+  #projects .project-card:hover::before{opacity:1;}
+  .project-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px;position:relative;z-index:1;}
+  #projects .project-card-tag{margin:0;line-height:1.45;}
+  .project-card-index{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted-2);border:1px solid var(--line);border-radius:999px;padding:4px 7px;flex-shrink:0;}
+  #projects .project-card-image{
+    position:relative;
+    aspect-ratio:4/3;
+    margin-bottom:22px;
+    padding:18px;
+    border:1px dashed rgba(57,255,106,.25);
+    border-radius:8px;
+    background:
+      linear-gradient(rgba(57,255,106,.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(57,255,106,.03) 1px,transparent 1px),
+      var(--panel-2);
+    background-size:22px 22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:7px;
+    overflow:hidden;
+    transition:border-color .3s,transform .3s;
+  }
+  #projects .project-card:hover .project-card-image{border-color:rgba(57,255,106,.65);transform:scale(1.015);}
+  #projects .project-card-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .image-slot-icon{width:38px;height:38px;border:1px solid rgba(57,255,106,.3);border-radius:50%;display:grid;place-items:center;color:var(--green);font-size:18px;background:rgba(57,255,106,.05);}
+  .image-slot-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--green);text-transform:uppercase;}
+  .image-slot-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--text);}
+  .image-slot-size{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted-2);}
+  #projects .project-card-title{font-size:18px;min-height:48px;position:relative;z-index:1;}
+  #projects .project-card-desc{font-size:13px;line-height:1.66;flex:1;position:relative;z-index:1;}
+  #projects .project-card-tags{position:relative;z-index:1;}
+  .project-card-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:.8px;position:relative;z-index:1;}
+  .project-card-arrow{font-size:16px;transition:transform .25s;}
+  #projects .project-card:hover .project-card-arrow{transform:translateY(3px);}
+
+  #projects .project-details{margin-top:120px;gap:110px;}
+  #projects .project-detail{
+    padding:0;
+    border:0;
+    scroll-margin-top:92px;
+  }
+  #projects .project-detail:last-child{border:0;}
+  .project-detail-shell{
+    overflow:hidden;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:0 30px 80px rgba(0,0,0,.22);
+  }
+  .project-detail-hero{
+    position:relative;
+    min-height:480px;
+    aspect-ratio:21/9;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:42px;
+    text-align:center;
+    background:
+      linear-gradient(180deg,rgba(7,11,8,.1),rgba(7,11,8,.78)),
+      radial-gradient(circle at 50% 35%,rgba(57,255,106,.12),transparent 36%),
+      linear-gradient(rgba(57,255,106,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(57,255,106,.035) 1px,transparent 1px),
+      #101610;
+    background-size:auto,auto,40px 40px,40px 40px,auto;
+    border-bottom:1px solid var(--line);
+  }
+  .project-detail-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  .project-detail-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,6,.12),rgba(5,8,6,.66));z-index:1;pointer-events:none;}
+  .project-hero-semester{position:absolute;top:28px;left:50%;transform:translateX(-50%);z-index:3;font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,2vw,28px);font-weight:700;letter-spacing:.5px;color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.55);}
+  .project-hero-slot{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;padding:24px 28px;border:1px dashed rgba(57,255,106,.42);border-radius:10px;background:rgba(7,12,8,.62);backdrop-filter:blur(8px);}
+  .project-hero-slot .image-slot-icon{width:48px;height:48px;}
+  .project-hero-slot .image-slot-title{font-size:16px;}
+  .project-scroll-cue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:3;width:34px;height:34px;border:1px solid rgba(255,255,255,.25);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:18px;animation:projectCue 1.8s ease-in-out infinite;}
+  @keyframes projectCue{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,7px)}}
+
+  .project-detail-content{padding:52px;}
+  .project-detail-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:26px;margin-bottom:34px;}
+  .project-detail-heading h3{font-size:clamp(28px,3vw,42px);margin:10px 0 0;max-width:780px;}
+  .project-sem-badge{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);border:1px solid rgba(57,255,106,.3);border-radius:999px;padding:8px 12px;text-transform:uppercase;letter-spacing:1px;background:rgba(57,255,106,.05);}
+  #projects .project-detail-body{grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr);gap:60px;padding-bottom:46px;border-bottom:1px solid var(--line);}
+  .project-detail-copy{color:var(--muted);font-size:15px;line-height:1.85;}
+  .project-detail-copy strong{color:var(--text);}
+  #projects .detail-meta{margin:0;padding:0;border:0;}
+  #projects .detail-meta .info-row{padding:13px 0;border-top:1px solid var(--line);}
+  #projects .detail-meta .info-row:last-child{border-bottom:1px solid var(--line);}
+  .presentation-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin:46px 0 24px;}
+  .presentation-head h4{font-family:'Space Grotesk',sans-serif;font-size:24px;margin-bottom:5px;}
+  .presentation-head p{font-size:13px;color:var(--muted);}
+  .presentation-board-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+  .board-slot{
+    position:relative;
+    aspect-ratio:16/10;
+    min-height:260px;
+    overflow:hidden;
+    border:1px dashed rgba(57,255,106,.28);
+    border-radius:10px;
+    background:
+      linear-gradient(135deg,rgba(57,255,106,.05),transparent 48%),
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+      var(--panel-2);
+    background-size:auto,28px 28px,28px 28px,auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    text-align:center;
+    padding:24px;
+    transition:border-color .3s,transform .3s;
+  }
+  .board-slot:hover{border-color:rgba(57,255,106,.65);transform:translateY(-3px);}
+  .board-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;}
+  .board-number{position:absolute;top:14px;left:14px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);letter-spacing:1px;text-transform:uppercase;}
+  .board-slot strong{font-family:'Space Grotesk',sans-serif;font-size:15px;}
+  .board-slot small{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted-2);}
+  #projects .detail-back{margin:22px 0 0;}
+  .image-replace-note{margin-top:18px;padding:13px 16px;border-left:2px solid var(--green);background:rgba(57,255,106,.045);font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.7;color:var(--muted);}
+
+  @media(max-width:1180px){#projects .project-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  @media(max-width:820px){
+    #projects .project-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .project-detail-hero{min-height:380px;}
+    .project-detail-content{padding:34px;}
+    .project-detail-heading{flex-direction:column;}
+    #projects .project-detail-body{grid-template-columns:1fr;gap:30px;}
+  }
+  @media(max-width:580px){
+    #projects .project-grid{grid-template-columns:1fr;}
+    #projects .project-card-title{min-height:0;}
+    #projects .project-details{margin-top:90px;gap:80px;}
+    .project-detail-hero{min-height:300px;aspect-ratio:4/3;padding:22px;}
+    .project-hero-semester{top:20px;font-size:20px;}
+    .project-detail-content{padding:26px 20px;}
+    .presentation-board-grid{grid-template-columns:1fr;}
+    .presentation-head{align-items:flex-start;flex-direction:column;}
+    .board-slot{min-height:220px;}
+  }
+
 </style>
 </head>
 <body>
@@ -467,145 +659,189 @@
 <section id="projects">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="section-tag">Selected Work</span>
-      <h2 class="section-title">Featured Projects</h2>
-      <p class="section-desc">A selection of thesis, heritage VR, and industrial-training work — click any project to view full details below.</p>
+      <span class="section-tag">Academic Studio Portfolio</span>
+      <h2 class="section-title">Projects by Semester</h2>
+      <p class="section-desc">Five architectural studio projects arranged from Semester 5 to Semester 1. Select a project card to jump to its perspective view, project information, and presentation-board area below.</p>
     </div>
-    <div class="project-grid">
-      <div class="project-card reveal" onclick="document.getElementById('detail-rrr').scrollIntoView({behavior:'smooth',block:'start'})">
-        <span class="project-card-tag">Thesis Design · 2025</span>
-        <div class="project-card-image"><span>[ Add project image ]</span></div>
-        <h3 class="project-card-title">RRR Market &amp; Learning Hub</h3>
-        <p class="project-card-desc">A zero-waste community hub concept built around the Reduce, Reuse, Recycle philosophy — integrating IBS modular construction with a Living Loop spatial strategy to serve urban communities.</p>
-        <div class="project-card-tags">Concept Design · IBS · Zero-Waste</div>
-      </div>
-      <div class="project-card reveal" onclick="document.getElementById('detail-masjid').scrollIntoView({behavior:'smooth',block:'start'})">
-        <span class="project-card-tag">VR Heritage · 2024</span>
-        <div class="project-card-image"><span>[ Add project image ]</span></div>
-        <h3 class="project-card-title">Masjid Kapitan Keling — VR</h3>
-        <p class="project-card-desc">An immersive Unity 6 virtual reality experience documenting the historic Masjid Kapitan Keling in George Town, Penang — preserving heritage architecture through interactive digital storytelling.</p>
-        <div class="project-card-tags">Unity 6 · XR Toolkit · Heritage</div>
-      </div>
-      <div class="project-card reveal" onclick="document.getElementById('detail-klia').scrollIntoView({behavior:'smooth',block:'start'})">
-        <span class="project-card-tag">BIM · Industrial Training 2024</span>
-        <div class="project-card-image"><span>[ Add project image ]</span></div>
-        <h3 class="project-card-title">KLIA QAQC BIM Model</h3>
-        <p class="project-card-desc">Quality assurance BIM coordination for Kuala Lumpur International Airport, developed during industrial training at Salur Kuasa Digital Sdn Bhd — applying ISO 19650 data standards and CDE workflow.</p>
-        <div class="project-card-tags">Revit 2025 · BIM · ISO 19650</div>
-      </div>
-      <div class="project-card reveal" onclick="document.getElementById('detail-royal').scrollIntoView({behavior:'smooth',block:'start'})">
-        <span class="project-card-tag">BIM · Industrial Training 2024</span>
-        <div class="project-card-image"><span>[ Add project image ]</span></div>
-        <h3 class="project-card-title">Royal Museum (Muzium Diraja)</h3>
-        <p class="project-card-desc">BIM modeling for the Royal Museum — Muzium Diraja project, translating architectural documentation into coordinated digital models with precise workset and naming conventions.</p>
-        <div class="project-card-tags">Revit · BIM Coordination · Heritage</div>
-      </div>
+
+    <div class="project-grid" aria-label="Semester projects">
+      <a class="project-card reveal" href="#detail-sem5" aria-label="View Semester 5 project details">
+        <div class="project-card-top"><span class="project-card-tag">Semester 5</span><span class="project-card-index">05</span></div>
+        <!-- Replace the placeholder below with: <img src="images/sem5-perspective.jpg" alt="RRR Zero Waste Market and Learning Hub perspective"> -->
+        <div class="project-card-image">
+          <span class="image-slot-icon">＋</span><span class="image-slot-kicker">Perspective</span><strong class="image-slot-title">Add Project Image</strong><span class="image-slot-size">Recommended 1600 × 1000 px</span>
+        </div>
+        <h3 class="project-card-title">RRR Zero Waste Market and Learning Hub</h3>
+        <p class="project-card-desc">A zero-waste market and learning-hub proposal centred on the Reduce, Reuse and Recycle approach.</p>
+        <div class="project-card-tags">Academic Studio · Sustainable Design</div>
+        <div class="project-card-cta"><span>View project details</span><span class="project-card-arrow">↓</span></div>
+      </a>
+
+      <a class="project-card reveal" href="#detail-sem4" aria-label="View Semester 4 project details">
+        <div class="project-card-top"><span class="project-card-tag">Semester 4</span><span class="project-card-index">04</span></div>
+        <!-- Replace the placeholder below with: <img src="images/sem4-perspective.jpg" alt="Tranquility Homeless Training Centre perspective"> -->
+        <div class="project-card-image">
+          <span class="image-slot-icon">＋</span><span class="image-slot-kicker">Perspective</span><strong class="image-slot-title">Add Project Image</strong><span class="image-slot-size">Recommended 1600 × 1000 px</span>
+        </div>
+        <h3 class="project-card-title">Tranquility Homeless Training Centre</h3>
+        <p class="project-card-desc">An architectural training-centre project focused on creating supportive, calm and purposeful spaces.</p>
+        <div class="project-card-tags">Academic Studio · Community Architecture</div>
+        <div class="project-card-cta"><span>View project details</span><span class="project-card-arrow">↓</span></div>
+      </a>
+
+      <a class="project-card reveal" href="#detail-sem3" aria-label="View Semester 3 project details">
+        <div class="project-card-top"><span class="project-card-tag">Semester 3</span><span class="project-card-index">03</span></div>
+        <!-- Replace the placeholder below with: <img src="images/sem3-perspective.jpg" alt="The Little Uranus Kindergarten perspective"> -->
+        <div class="project-card-image">
+          <span class="image-slot-icon">＋</span><span class="image-slot-kicker">Perspective</span><strong class="image-slot-title">Add Project Image</strong><span class="image-slot-size">Recommended 1600 × 1000 px</span>
+        </div>
+        <h3 class="project-card-title">The Little Uranus Kindergarten</h3>
+        <p class="project-card-desc">A child-centred kindergarten proposal with playful learning spaces and an imaginative identity.</p>
+        <div class="project-card-tags">Academic Studio · Education Design</div>
+        <div class="project-card-cta"><span>View project details</span><span class="project-card-arrow">↓</span></div>
+      </a>
+
+      <a class="project-card reveal" href="#detail-sem2" aria-label="View Semester 2 project details">
+        <div class="project-card-top"><span class="project-card-tag">Semester 2</span><span class="project-card-index">02</span></div>
+        <!-- Replace the placeholder below with: <img src="images/sem2-perspective.jpg" alt="Tranquility in Tension perspective"> -->
+        <div class="project-card-image">
+          <span class="image-slot-icon">＋</span><span class="image-slot-kicker">Perspective</span><strong class="image-slot-title">Add Project Image</strong><span class="image-slot-size">Recommended 1600 × 1000 px</span>
+        </div>
+        <h3 class="project-card-title">Tranquility in Tension</h3>
+        <p class="project-card-desc">A spatial exploration of contrast, balancing moments of calm with form, movement and tension.</p>
+        <div class="project-card-tags">Academic Studio · Spatial Exploration</div>
+        <div class="project-card-cta"><span>View project details</span><span class="project-card-arrow">↓</span></div>
+      </a>
+
+      <a class="project-card reveal" href="#detail-sem1" aria-label="View Semester 1 project details">
+        <div class="project-card-top"><span class="project-card-tag">Semester 1</span><span class="project-card-index">01</span></div>
+        <!-- Replace the placeholder below with: <img src="images/sem1-sketch.jpg" alt="Dusit Thani Building sketch study"> -->
+        <div class="project-card-image">
+          <span class="image-slot-icon">＋</span><span class="image-slot-kicker">Sketch / Perspective</span><strong class="image-slot-title">Add Project Image</strong><span class="image-slot-size">Recommended 1600 × 1000 px</span>
+        </div>
+        <h3 class="project-card-title">Dusit Thani Building — Reference Sketches</h3>
+        <p class="project-card-desc">An introductory architectural sketch study using the Dusit Thani Building as the visual reference.</p>
+        <div class="project-card-tags">Academic Studio · Architectural Sketching</div>
+        <div class="project-card-cta"><span>View project details</span><span class="project-card-arrow">↓</span></div>
+      </a>
     </div>
 
     <div class="project-details">
-      <div class="project-detail reveal" id="detail-rrr">
-        <a href="#projects" class="detail-back">← Back to projects</a>
-        <div class="tag-row"><span class="micro-tag">Thesis Design · 2025</span><span class="micro-tag">Concept Design</span><span class="micro-tag">IBS</span><span class="micro-tag">Zero-Waste</span></div>
-        <h3>RRR Market &amp; Learning Hub</h3>
-        <div class="project-detail-body">
-          <div class="detail-gallery">
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
+
+      <article class="project-detail reveal" id="detail-sem5">
+        <div class="project-detail-shell">
+          <div class="project-detail-hero">
+            <!-- Add the full-width Semester 5 perspective as an <img> inside this block. -->
+            <div class="project-hero-semester">SEMESTER 5</div>
+            <div class="project-hero-slot"><span class="image-slot-icon">＋</span><span class="image-slot-kicker">Main Perspective</span><strong class="image-slot-title">Add Full-Width Perspective Image</strong><span class="image-slot-size">Recommended 2400 × 1200 px</span></div>
+            <div class="project-scroll-cue">⌄</div>
           </div>
-          <div>
-            <p class="detail-desc">A zero-waste community hub concept built around the Reduce, Reuse, Recycle philosophy. The design integrates IBS (Industrialised Building System) modular construction with a "Living Loop" spatial strategy, where market, learning, and waste-processing functions are arranged to support a continuous, circular flow of materials and people — serving as a model for sustainable urban community spaces.</p>
-            <div class="detail-meta">
-              <div class="info-row"><dt>Type</dt><dd>Thesis / Final Year Design</dd></div>
-              <div class="info-row"><dt>Year</dt><dd>2025</dd></div>
-              <div class="info-row"><dt>Approach</dt><dd>IBS Modular · Living Loop Strategy</dd></div>
-              <div class="info-row"><dt>Tools</dt><dd>Revit · SketchUp · D5 Render</dd></div>
+          <div class="project-detail-content">
+            <div class="project-detail-heading"><div><span class="section-tag">Semester 5 Project</span><h3>RRR Zero Waste Market and Learning Hub</h3></div><span class="project-sem-badge">Academic Studio 05</span></div>
+            <div class="project-detail-body">
+              <p class="project-detail-copy"><strong>Project overview.</strong> A zero-waste market and learning-hub proposal centred on Reduce, Reuse and Recycle. This text area is ready for your design concept, site response, programme, sustainability strategy and key architectural ideas.</p>
+              <div class="detail-meta"><div class="info-row"><dt>Semester</dt><dd>5</dd></div><div class="info-row"><dt>Project Type</dt><dd>Market &amp; Learning Hub</dd></div><div class="info-row"><dt>Visual Content</dt><dd>Perspective · Plans · Sections</dd></div><div class="info-row"><dt>Status</dt><dd>Ready for portfolio images</dd></div></div>
             </div>
+            <div class="presentation-head"><div><h4>Presentation Boards</h4><p>Place your final boards, drawings, diagrams and project explanation here.</p></div><span class="project-sem-badge">Board Gallery</span></div>
+            <div class="presentation-board-grid">
+              <!-- Replace each board placeholder with an <img src="..." alt="...">. -->
+              <div class="board-slot"><span class="board-number">Board 01</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Landscape board · JPG/PNG</small></div>
+              <div class="board-slot"><span class="board-number">Board 02</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Plans / sections / diagrams</small></div>
+            </div>
+            <div class="image-replace-note">IMAGE NOTE — The placeholders are intentionally left empty. Insert an &lt;img&gt; tag inside each perspective or board slot when your final images are ready.</div>
+            <a href="#projects" class="detail-back">← Back to semester projects</a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="project-detail reveal" id="detail-masjid">
-        <a href="#projects" class="detail-back">← Back to projects</a>
-        <div class="tag-row"><span class="micro-tag">VR Heritage · 2024</span><span class="micro-tag">Unity 6</span><span class="micro-tag">XR Toolkit</span></div>
-        <h3>Masjid Kapitan Keling — VR</h3>
-        <div class="project-detail-body">
-          <div class="detail-gallery">
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
+      <article class="project-detail reveal" id="detail-sem4">
+        <div class="project-detail-shell">
+          <div class="project-detail-hero">
+            <!-- Add the full-width Semester 4 perspective as an <img> inside this block. -->
+            <div class="project-hero-semester">SEMESTER 4</div>
+            <div class="project-hero-slot"><span class="image-slot-icon">＋</span><span class="image-slot-kicker">Main Perspective</span><strong class="image-slot-title">Add Full-Width Perspective Image</strong><span class="image-slot-size">Recommended 2400 × 1200 px</span></div>
+            <div class="project-scroll-cue">⌄</div>
           </div>
-          <div>
-            <p class="detail-desc">An immersive virtual reality experience built in Unity 6, documenting the historic Masjid Kapitan Keling in George Town, Penang. The project reconstructs the mosque's architecture as an interactive 3D environment, allowing users to walk through and explore the heritage site digitally — combining architectural documentation with XR storytelling to preserve and share Penang's built heritage.</p>
-            <div class="detail-meta">
-              <div class="info-row"><dt>Type</dt><dd>VR Heritage Documentation</dd></div>
-              <div class="info-row"><dt>Year</dt><dd>2024</dd></div>
-              <div class="info-row"><dt>Location</dt><dd>George Town, Penang</dd></div>
-              <div class="info-row"><dt>Tools</dt><dd>Unity 6 · XR Toolkit · SketchUp</dd></div>
+          <div class="project-detail-content">
+            <div class="project-detail-heading"><div><span class="section-tag">Semester 4 Project</span><h3>Tranquility Homeless Training Centre</h3></div><span class="project-sem-badge">Academic Studio 04</span></div>
+            <div class="project-detail-body">
+              <p class="project-detail-copy"><strong>Project overview.</strong> An architectural training-centre project focused on supportive, calm and purposeful spaces. Use this area to explain the users, programme, design response, spatial sequence and project objectives.</p>
+              <div class="detail-meta"><div class="info-row"><dt>Semester</dt><dd>4</dd></div><div class="info-row"><dt>Project Type</dt><dd>Training Centre</dd></div><div class="info-row"><dt>Visual Content</dt><dd>Perspective · Plans · Sections</dd></div><div class="info-row"><dt>Status</dt><dd>Ready for portfolio images</dd></div></div>
             </div>
+            <div class="presentation-head"><div><h4>Presentation Boards</h4><p>Place your final boards, drawings, diagrams and project explanation here.</p></div><span class="project-sem-badge">Board Gallery</span></div>
+            <div class="presentation-board-grid"><div class="board-slot"><span class="board-number">Board 01</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Landscape board · JPG/PNG</small></div><div class="board-slot"><span class="board-number">Board 02</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Plans / sections / diagrams</small></div></div>
+            <div class="image-replace-note">IMAGE NOTE — Insert your Semester 4 perspective and board images inside the marked placeholders.</div>
+            <a href="#projects" class="detail-back">← Back to semester projects</a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="project-detail reveal" id="detail-klia">
-        <a href="#projects" class="detail-back">← Back to projects</a>
-        <div class="tag-row"><span class="micro-tag">BIM · Industrial Training 2024</span><span class="micro-tag">Revit 2025</span><span class="micro-tag">ISO 19650</span></div>
-        <h3>KLIA QAQC BIM Model</h3>
-        <div class="project-detail-body">
-          <div class="detail-gallery">
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
+      <article class="project-detail reveal" id="detail-sem3">
+        <div class="project-detail-shell">
+          <div class="project-detail-hero">
+            <!-- Add the full-width Semester 3 perspective as an <img> inside this block. -->
+            <div class="project-hero-semester">SEMESTER 3</div>
+            <div class="project-hero-slot"><span class="image-slot-icon">＋</span><span class="image-slot-kicker">Main Perspective</span><strong class="image-slot-title">Add Full-Width Perspective Image</strong><span class="image-slot-size">Recommended 2400 × 1200 px</span></div>
+            <div class="project-scroll-cue">⌄</div>
           </div>
-          <div>
-            <p class="detail-desc">Quality assurance and quality control (QAQC) BIM coordination for Kuala Lumpur International Airport, carried out during industrial training at Salur Kuasa Digital Sdn Bhd. Work involved checking model accuracy and consistency against ISO 19650 data standards, coordinating revisions through a Common Data Environment (CDE), and supporting a workflow used across a live, large-scale infrastructure project.</p>
-            <div class="detail-meta">
-              <div class="info-row"><dt>Type</dt><dd>Industrial Training — BIM QAQC</dd></div>
-              <div class="info-row"><dt>Year</dt><dd>2024</dd></div>
-              <div class="info-row"><dt>Company</dt><dd>Salur Kuasa Digital Sdn Bhd</dd></div>
-              <div class="info-row"><dt>Standard</dt><dd>ISO 19650 · CDE Workflow</dd></div>
-              <div class="info-row"><dt>Tools</dt><dd>Revit 2025</dd></div>
+          <div class="project-detail-content">
+            <div class="project-detail-heading"><div><span class="section-tag">Semester 3 Project</span><h3>The Little Uranus Kindergarten</h3></div><span class="project-sem-badge">Academic Studio 03</span></div>
+            <div class="project-detail-body">
+              <p class="project-detail-copy"><strong>Project overview.</strong> A child-centred kindergarten proposal with playful learning spaces and an imaginative identity. Add your concept development, child-scale design approach, learning environment and site strategy here.</p>
+              <div class="detail-meta"><div class="info-row"><dt>Semester</dt><dd>3</dd></div><div class="info-row"><dt>Project Type</dt><dd>Kindergarten</dd></div><div class="info-row"><dt>Visual Content</dt><dd>Perspective · Plans · Sections</dd></div><div class="info-row"><dt>Status</dt><dd>Ready for portfolio images</dd></div></div>
             </div>
+            <div class="presentation-head"><div><h4>Presentation Boards</h4><p>Place your final boards, drawings, diagrams and project explanation here.</p></div><span class="project-sem-badge">Board Gallery</span></div>
+            <div class="presentation-board-grid"><div class="board-slot"><span class="board-number">Board 01</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Landscape board · JPG/PNG</small></div><div class="board-slot"><span class="board-number">Board 02</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Plans / sections / diagrams</small></div></div>
+            <div class="image-replace-note">IMAGE NOTE — Insert your Semester 3 perspective and board images inside the marked placeholders.</div>
+            <a href="#projects" class="detail-back">← Back to semester projects</a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="project-detail reveal" id="detail-royal">
-        <a href="#projects" class="detail-back">← Back to projects</a>
-        <div class="tag-row"><span class="micro-tag">BIM · Industrial Training 2024</span><span class="micro-tag">BIM Coordination</span><span class="micro-tag">Heritage</span></div>
-        <h3>Royal Museum (Muzium Diraja)</h3>
-        <div class="project-detail-body">
-          <div class="detail-gallery">
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
-            <div class="detail-gallery-item"><span>[ Add image ]</span></div>
+      <article class="project-detail reveal" id="detail-sem2">
+        <div class="project-detail-shell">
+          <div class="project-detail-hero">
+            <!-- Add the full-width Semester 2 perspective as an <img> inside this block. -->
+            <div class="project-hero-semester">SEMESTER 2</div>
+            <div class="project-hero-slot"><span class="image-slot-icon">＋</span><span class="image-slot-kicker">Main Perspective</span><strong class="image-slot-title">Add Full-Width Perspective Image</strong><span class="image-slot-size">Recommended 2400 × 1200 px</span></div>
+            <div class="project-scroll-cue">⌄</div>
           </div>
-          <div>
-            <p class="detail-desc">BIM modeling for the Royal Museum (Muzium Diraja) project, carried out during industrial training. The work translated existing architectural documentation into a fully coordinated digital model, with careful attention to workset organisation and element naming conventions to keep the model clean and usable across the project team.</p>
-            <div class="detail-meta">
-              <div class="info-row"><dt>Type</dt><dd>Industrial Training — BIM Modeling</dd></div>
-              <div class="info-row"><dt>Year</dt><dd>2024</dd></div>
-              <div class="info-row"><dt>Focus</dt><dd>Workset &amp; Naming Coordination</dd></div>
-              <div class="info-row"><dt>Tools</dt><dd>Revit</dd></div>
+          <div class="project-detail-content">
+            <div class="project-detail-heading"><div><span class="section-tag">Semester 2 Project</span><h3>Tranquility in Tension</h3></div><span class="project-sem-badge">Academic Studio 02</span></div>
+            <div class="project-detail-body">
+              <p class="project-detail-copy"><strong>Project overview.</strong> A spatial exploration of contrast, balancing tranquility with moments of tension through form, movement, enclosure and light. Add the full concept narrative and design process here.</p>
+              <div class="detail-meta"><div class="info-row"><dt>Semester</dt><dd>2</dd></div><div class="info-row"><dt>Project Type</dt><dd>Spatial Exploration</dd></div><div class="info-row"><dt>Visual Content</dt><dd>Perspective · Models · Diagrams</dd></div><div class="info-row"><dt>Status</dt><dd>Ready for portfolio images</dd></div></div>
             </div>
+            <div class="presentation-head"><div><h4>Presentation Boards</h4><p>Place your final boards, drawings, diagrams and project explanation here.</p></div><span class="project-sem-badge">Board Gallery</span></div>
+            <div class="presentation-board-grid"><div class="board-slot"><span class="board-number">Board 01</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Landscape board · JPG/PNG</small></div><div class="board-slot"><span class="board-number">Board 02</span><span class="image-slot-icon">＋</span><strong>Add Presentation Board</strong><small>Models / diagrams / studies</small></div></div>
+            <div class="image-replace-note">IMAGE NOTE — Insert your Semester 2 perspective and board images inside the marked placeholders.</div>
+            <a href="#projects" class="detail-back">← Back to semester projects</a>
           </div>
         </div>
-      </div>
-    </div>
+      </article>
 
-    <div class="sub-projects">
-      <div class="sub-card reveal">
-        <h4>Measured Drawing</h4>
-        <ul><li>Pejabat Pentadbiran Lama <span>Survey · Modelling</span></li><li>Hospital Batu Gajah, Perak <span>Render · Animation</span></li></ul>
-      </div>
-      <div class="sub-card reveal">
-        <h4>Working Drawing</h4>
-        <ul><li>Timber House <span>Construction Set</span></li><li>Single Storey Bungalow <span>Construction Set</span></li><li>2-Storey Kindergarten <span>Construction Set</span></li></ul>
-      </div>
+      <article class="project-detail reveal" id="detail-sem1">
+        <div class="project-detail-shell">
+          <div class="project-detail-hero">
+            <!-- Add the full-width Semester 1 sketch or perspective as an <img> inside this block. -->
+            <div class="project-hero-semester">SEMESTER 1</div>
+            <div class="project-hero-slot"><span class="image-slot-icon">＋</span><span class="image-slot-kicker">Sketch / Perspective</span><strong class="image-slot-title">Add Main Sketch Image</strong><span class="image-slot-size">Recommended 2400 × 1200 px</span></div>
+            <div class="project-scroll-cue">⌄</div>
+          </div>
+          <div class="project-detail-content">
+            <div class="project-detail-heading"><div><span class="section-tag">Semester 1 Project</span><h3>Dusit Thani Building — Reference Sketches</h3></div><span class="project-sem-badge">Academic Studio 01</span></div>
+            <div class="project-detail-body">
+              <p class="project-detail-copy"><strong>Project overview.</strong> An introductory architectural sketch study using the Dusit Thani Building as a visual reference. Add your observational drawings, line-work exercises, tonal studies and learning reflection here.</p>
+              <div class="detail-meta"><div class="info-row"><dt>Semester</dt><dd>1</dd></div><div class="info-row"><dt>Project Type</dt><dd>Reference Sketch Study</dd></div><div class="info-row"><dt>Visual Content</dt><dd>Sketches · Studies · Notes</dd></div><div class="info-row"><dt>Status</dt><dd>Ready for portfolio images</dd></div></div>
+            </div>
+            <div class="presentation-head"><div><h4>Sketch &amp; Presentation Boards</h4><p>Place your sketch sheets, visual studies and final presentation layout here.</p></div><span class="project-sem-badge">Board Gallery</span></div>
+            <div class="presentation-board-grid"><div class="board-slot"><span class="board-number">Sheet 01</span><span class="image-slot-icon">＋</span><strong>Add Sketch Sheet</strong><small>Architectural sketches · JPG/PNG</small></div><div class="board-slot"><span class="board-number">Sheet 02</span><span class="image-slot-icon">＋</span><strong>Add Sketch Sheet</strong><small>Studies / details / notes</small></div></div>
+            <div class="image-replace-note">IMAGE NOTE — Insert your Semester 1 sketch and presentation images inside the marked placeholders.</div>
+            <a href="#projects" class="detail-back">← Back to semester projects</a>
+          </div>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
@@ -923,7 +1159,7 @@ window.addEventListener('load', () => {
   animateCursor();
 
   // Hover effects
-  const hoverElements = document.querySelectorAll('a, button, .liquid-btn, .skill-card, .comp-card, .orbital-node');
+  const hoverElements = document.querySelectorAll('a, button, .liquid-btn, .skill-card, .comp-card, .project-card, .board-slot, .orbital-node');
   hoverElements.forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
